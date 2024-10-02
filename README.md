@@ -6,7 +6,7 @@ The repo contains the necessary code to reproduce the experiments.
 
 ## Setup
 
-Reference Python environment is given in `env.yml`.
+Reference Python (Conda) environment is given in `env.yml`.
 
 For UCI datasets/splits and score summary, you need to clone together with `DropoutUncertaintyExps` submodule:  
 ```git clone --recurse-submodules --remote-submodules <repo-URL>```
