@@ -18,17 +18,6 @@ import os
 import time
 import lib.crps as crps
 
-class AULayer(nn.Module):
-    def __init__(self, in_features, out_features):
-        super(AULayer, self).__init__()
-        self.in_features = in_features
-        self.out_features = out_features
-
-    def forward(self, x, n_samples=10):
-        eps = torch.randn(x.shape[0], n_samples, self.out_features-self.in_features, device=x.device)
-        return torch.concatenate([x.unsqueeze(1).expand(-1, n_samples, -1), eps], dim=2)
-
-
 class CRPSRegressor(nn.Module):
     def __init__(self, input_dim, nheads, nens):
         super(CRPSRegressor, self).__init__()
@@ -39,7 +28,7 @@ class CRPSRegressor(nn.Module):
             nn.GELU(),
             nn.Linear(128, 512),
             nn.GELU(),
-            AULayer(512, 512+20),
+            crps.EpsilonSampler(20),
             nn.Linear(512+20, 512),
             nn.GELU(),
             nn.Linear(512, 1024),
@@ -49,7 +38,7 @@ class CRPSRegressor(nn.Module):
 
     def forward(self, x, n_samples=10):
         for l in self.layers:
-            if type(l)==AULayer:
+            if type(l)==crps.EpsilonSampler:
                 x = l(x, n_samples=n_samples)
             else:
                 x = l(x)
