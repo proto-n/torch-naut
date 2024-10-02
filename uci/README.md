@@ -12,5 +12,6 @@ Or if you cloned this one already, you can use
 
 In case you are using this without git (for example in its anonymized form during review), you can simply clone the `DropoutUncertaintyExps` repo to this folder:
 ```
-  git clone https://github.com/yaringal/DropoutUncertaintyExps.git DropoutUncertaintyExps.git
+  rmdir DropoutUncertaintyExps
+  git clone https://github.com/yaringal/DropoutUncertaintyExps.git DropoutUncertaintyExps
 ```
