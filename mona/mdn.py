@@ -46,7 +46,6 @@ class MDN(nn.Module):
         dist = torch.distributions.Normal(p[:, :, 0], p[:, :, 1])
         log_likelihood_terms = dist.log_prob(y.reshape(-1,1))
         log_mixture_logcoefs = nn.functional.log_softmax(p[:, :, 2], dim=1)
-        # log(sum(c * likelihood)) = log(sum(exp(log(c * likelihood)))) == log(sum(exp(log(c) + log(likelihood)))))
         log_likelihoods = torch.logsumexp(log_likelihood_terms + log_mixture_logcoefs, dim=1)
         return torch.clamp(log_likelihoods, min=min_log_proba) # avoiding nans when log prob is extremely low
     
@@ -107,11 +106,8 @@ if __name__ == "__main__":
         transforms.ToTensor(),
     ])
 
-
-    # Open the image using PIL (Pyt3185/5000 [00:08<00:05, 352.51it/s]hon Imaging Library)
     image = Image.open('mona.png')
 
-    # Apply the transformation to convert the image to a PyTorch tensor
     image_tensor = transform(image)[0][:500, :500] # type: ignore # it's grayscale
 
     image_dist = torch.distributions.Categorical(image_tensor/image_tensor.sum(dim=1, keepdim=True))
@@ -137,8 +133,6 @@ if __name__ == "__main__":
     plt.show()
 
 
-
-    #res_folder = "results/"+sys.argv[1].split('/')[-1].split('.')[0]
     res_folder = "results/mdn"
     os.makedirs(res_folder, exist_ok=True)
 

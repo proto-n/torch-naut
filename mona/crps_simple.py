@@ -105,7 +105,7 @@ if __name__ == "__main__":
     selected_gpu_id = select_gpu_with_low_usage()
     device="cuda:"+str(selected_gpu_id)
 
-    res_folder = "results/crps_simple" # run12
+    res_folder = "results/crps_simple"
     os.makedirs(res_folder, exist_ok=True)
 
     epochs = 200
@@ -157,11 +157,8 @@ if __name__ == "__main__":
                 for tpb in torch.tensor_split(to_plot_X, to_plot_X.shape[0]//10):
                     samp = l2(tpb, n_samples=10000//(heads*nens))
                     out_samp_unif_.append(samp)
-                    #out_samp_unif_weight_.append(weight)
                 t_sample = torch.concatenate(out_samp_unif_, dim=0)
-                #t_weight = torch.concatenate(out_samp_unif_weight_, dim=0)
                 t_sample = t_sample.view(t_sample.shape[0], -1)
-                #t_weight = t_weight.view(t_weight.shape[0], -1)
                 t_coord_sample = samples_to_coords(t_sample, norm=True)
 
                 weights = image_tensor.sum(dim=1).unsqueeze(1).expand(-1, t_sample.shape[1]).reshape(-1)
