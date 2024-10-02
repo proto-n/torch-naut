@@ -1,0 +1,1 @@
+unzip mnist-dataset.zip

@@ -3,4 +3,9 @@ uci/results/*/*
 mona/results/*/*
 !mona/results/empty
 multivariate/results/*/*
+!multivariate/results/*/empty
 !multivariate/results/empty
+multivariate/mnist_data/*
+!multivariate/mnist_data/preprocess.ipynb
+!multivariate/mnist_data/unzip.sh
+!multivariate/mnist_data/mnist-dataset.zip
