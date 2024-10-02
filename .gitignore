@@ -1,6 +1,7 @@
 uci/results/*/*
 !uci/results/*/scores.csv
 mona/results/*/*
+!mona/results/*/1999.png
 !mona/results/empty
 multivariate/results/*/*
 !multivariate/results/*/empty
