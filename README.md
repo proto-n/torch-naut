@@ -18,7 +18,7 @@ In case you are using this without git (for example in its anonymized form durin
 ```
   git clone https://github.com/yaringal/DropoutUncertaintyExps.git uci/DropoutUncertaintyExps.git
 ```
-
+Some of the code uses automatic GPU selection instead of command-line arguments for device, this assumes the presence of the `nvidia-smi` command.
 
 ## Experiments
 
