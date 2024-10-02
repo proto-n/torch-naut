@@ -14,8 +14,10 @@ For UCI datasets/splits and score summary, you need to clone together with `Drop
 Or if you cloned this one already, you can use  
 ```git submodule update --init --recursive```
 
-In case you are using this without git (for example in its anonymized form during review), you can simply clone the ˙DropoutUncertaintyExps˙ repo:
-```git clone https://github.com/yaringal/DropoutUncertaintyExps.git uci/DropoutUncertaintyExps.git```
+In case you are using this without git (for example in its anonymized form during review), you can simply clone the `DropoutUncertaintyExps` repo:
+```
+  git clone https://github.com/yaringal/DropoutUncertaintyExps.git uci/DropoutUncertaintyExps.git
+```
 
 
 ## Experiments
