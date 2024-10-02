@@ -1,0 +1,3 @@
+[submodule "uci/DropoutUncertaintyExps"]
+	path = uci/DropoutUncertaintyExps
+	url = https://github.com/yaringal/DropoutUncertaintyExps.git
