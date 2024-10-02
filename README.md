@@ -16,7 +16,7 @@ Or if you cloned this one already, you can use
 
 In case you are using this without git (for example in its anonymized form during review), you can simply clone the `DropoutUncertaintyExps` repo:
 ```
-  git clone https://github.com/yaringal/DropoutUncertaintyExps.git uci/DropoutUncertaintyExps.git
+  git clone https://github.com/yaringal/DropoutUncertaintyExps.git uci/DropoutUncertaintyExps
 ```
 Some of the code uses automatic GPU selection instead of command-line arguments for device, this assumes the presence of the `nvidia-smi` command.
 
