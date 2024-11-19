@@ -1,5 +1,6 @@
 uci/results/*/*
 !uci/results/*/scores.csv
+!uci/results/*/time.txt
 mona/results/*/*
 !mona/results/*/1999.png
 !mona/results/empty
@@ -10,3 +11,4 @@ multivariate/mnist_data/*
 !multivariate/mnist_data/preprocess.ipynb
 !multivariate/mnist_data/unzip.sh
 !multivariate/mnist_data/mnist-dataset.zip
+*/__pycache__

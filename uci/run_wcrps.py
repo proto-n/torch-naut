@@ -20,6 +20,7 @@ start_time = time.time()
 parser = argparse.ArgumentParser(description="Process some flags.")
 
 parser.add_argument('--expname', type=str, required=True, help='Name of the experiment')
+parser.add_argument('--n_samples', type=int, default=100, help='Number of samples to take during training')
 parser.add_argument('--device', type=str, default='auto', help='Device to use (default: auto)')
 
 args = parser.parse_args()
@@ -85,7 +86,7 @@ class CRPSRegressor(nn.Module):
 
 batch_size=16
 optimizer=None
-samples=100
+samples=args.n_samples
 max_epoch=1000
 valid_samples=1000
 l2reg=1e-6
