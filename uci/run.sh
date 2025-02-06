@@ -14,3 +14,4 @@ python run_ensembles_gelu.py --expname ensembles_gelu --n_networks 5
 python run_disco.py --expanane disco_1_0 --beta 1 --gamma 0
 python run_disco.py --expanane disco_1_025 --beta 1 --gamma 0.25
 python run_disco.py --expanane disco_1_05 --beta 1 --gamma 0.5
+python run_bnn_lv.py --expname bnn_lv --max_epoch 2000

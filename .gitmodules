@@ -1,3 +1,6 @@
 [submodule "uci/DropoutUncertaintyExps"]
 	path = uci/DropoutUncertaintyExps
 	url = https://github.com/yaringal/DropoutUncertaintyExps.git
+[submodule "uci/lightning-ux-box"]
+	path = uci/lightning-ux-box
+	url = git@github.com:proto-n/lightning-uq-box.git
