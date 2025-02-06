@@ -1,6 +1,6 @@
 ![TorchNaut](https://github.com/proto-n/torch-naut/raw/main/static/naut-text.png)
 
-PyTorch Nonparametric Aleatoric Uncertainty Modeling Toolkit
+Nonparametric Aleatoric Uncertainty Modeling Toolkit for PyTorch
 
 --------------------------------------------------------------------------------
 
