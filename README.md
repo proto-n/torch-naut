@@ -34,3 +34,21 @@ Please refer to README.md in the folder of the specific experiment.
 ## License
 
 During review, we set no explicit license. After acceptance, we plan to release code under the Apache License.
+
+## Library
+
+We also release the code as a python library. Please refer to the `main` branch for code and documentation!
+
+## Citation
+
+If you use TorchNaut in your research, please cite our paper:  
+```
+@inproceedings{
+kelen2025distributionfree,
+title={Distribution-free Data Uncertainty for Neural Network Regression},
+author={Domokos M. Kelen and {\'A}d{\'a}m Jung and P{\'e}ter Kersch and Andras A Benczur},
+booktitle={The Thirteenth International Conference on Learning Representations},
+year={2025},
+url={https://openreview.net/forum?id=pDDODPtpx9}
+}
+```
