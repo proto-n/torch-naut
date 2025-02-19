@@ -28,5 +28,12 @@ The library code is coming soon
 
 If you use TorchNaut in your research, please cite our paper:  
 ```
-@bibtex_entry_coming_soon
+@inproceedings{
+kelen2025distributionfree,
+title={Distribution-free Data Uncertainty for Neural Network Regression},
+author={Domokos M. Kelen and {\'A}d{\'a}m Jung and P{\'e}ter Kersch and Andras A Benczur},
+booktitle={The Thirteenth International Conference on Learning Representations},
+year={2025},
+url={https://openreview.net/forum?id=pDDODPtpx9}
+}
 ```
