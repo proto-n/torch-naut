@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "torchnaut"
+version = "0.1"
+description = "PyTorch Nonparametric Aleatoric Uncertainty Modeling Toolkit"
+authors = [{ name = "Domokos M. Kelen", email = "kdomokos@sztaki.hu" }]
+dependencies = [
+    "torch",
+    "numpy",
+    "scikit-learn",
+    "scipy"
+]
+
+[tool.setuptools]
+packages = ["torchnaut"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+
+[tool.ruff]
+line-length = 140
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "sphinx",
+    "sphinx-rtd-theme",
+    "myst-parser",
+    "sphinx-autodoc-typehints",
+    "pre-commit"
+]
