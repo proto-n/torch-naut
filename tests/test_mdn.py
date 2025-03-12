@@ -7,7 +7,7 @@ def test_mdn_shape():
     batch_size, n_components = 10, 3
     p = torch.randn(batch_size, n_components, 3)
 
-    dist = mdn.get_dist(p)
+    _ = mdn.get_dist(p)
     samples = mdn.sample(p, n=5)
     expect = mdn.expected_value(p)
 
@@ -23,7 +23,7 @@ def test_mdnmv_shape():
     n_params = 1 + n_dims + (n_dims * (n_dims + 1) // 2)  # weights + means + tril
     p = torch.randn(batch_size, n_components, n_params)
 
-    dist = mdnmv.get_dist(p)
+    _ = mdnmv.get_dist(p)
     samples = mdnmv.sample(p, n=5)
     expect = mdnmv.expected_value(p)
 

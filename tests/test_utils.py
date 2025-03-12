@@ -72,11 +72,11 @@ def test_label_scaler_tensor_input():
     transformed = scaler.fit_transform(data)
 
     # Test with torch tensor input
-    tensor_data = torch.from_numpy(transformed).cuda()
+    tensor_data = torch.from_numpy(transformed).cpu()
     reconstructed = scaler.inverse_transform(tensor_data)
 
     assert isinstance(reconstructed, torch.Tensor)
-    assert reconstructed.device.type == "cuda"
+    assert reconstructed.device.type == "cpu"
     assert reconstructed.shape == (100, 5)
 
     # Compare with numpy reconstruction

@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import pytest
 from torchnaut.crps import EpsilonSampler
 
 
