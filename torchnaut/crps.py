@@ -5,8 +5,8 @@ from typing import Optional
 
 class EpsilonSampler(nn.Module):
     """Layer that adds random normal samples to enable probabilistic predictions.
-    
-    This layer transforms input tensors by concatenating random samples from a standard 
+
+    This layer transforms input tensors by concatenating random samples from a standard
     normal distribution. The number of samples can be controlled globally using the context
     manager interface or per-call using the n_samples parameter.
 
@@ -17,7 +17,7 @@ class EpsilonSampler(nn.Module):
         >>> sampler = EpsilonSampler(16)
         >>> # Default number of samples (100)
         >>> out = sampler(x)  # Shape: [batch, 100, features+16]
-        >>> 
+        >>>
         >>> # Override samples for a specific call
         >>> out = sampler(x, n_samples=1000)  # Shape: [batch, 1000, features+16]
         >>>
@@ -27,7 +27,9 @@ class EpsilonSampler(nn.Module):
         >>> out = sampler(x)  # Back to default 100 samples
     """
 
-    _global_n_samples: Optional[int] = None  # Static attribute for context-manager n_samples
+    _global_n_samples: Optional[int] = (
+        None  # Static attribute for context-manager n_samples
+    )
 
     def __init__(self, n_dim):
         super().__init__()
@@ -35,7 +37,7 @@ class EpsilonSampler(nn.Module):
 
     def forward(self, x, n_samples=None):
         """Forward pass adding random normal samples.
-        
+
         Args:
             x (torch.Tensor): Input tensor
             n_samples (int, optional): Override number of samples for this call.

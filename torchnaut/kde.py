@@ -5,17 +5,17 @@ import numpy as np
 
 def _compute_kde_params(tkernels, pilot_samples_num=None):
     """Compute KDE bandwidth and parameters.
-    
+
     Uses Silverman's rule for global bandwidth and adaptive local bandwidth scaling.
     Note that the pilot density estimate used for local bandwidth factors does not
-    use sample weights, even when the final KDE is weighted. This is because the 
+    use sample weights, even when the final KDE is weighted. This is because the
     local bandwidth should adapt to the density of the points in feature space,
     not their importance weights in the mixture model.
-    
+
     Args:
         tkernels: Input samples [batch x num_samples]
         pilot_samples_num: Optional limit on number of pilot samples
-        
+
     Returns:
         Tuple of (t_mean, t_sqcov, t_std_X, t_inv_loc_bw, _glob_bw)
     """
@@ -24,7 +24,7 @@ def _compute_kde_params(tkernels, pilot_samples_num=None):
         limit_pilot_samples = True
     else:
         pilot_samples_num = tkernels.shape[1]
-        
+
     t_sqcov = tkernels.std(dim=1, keepdim=True)
     t_mean = tkernels.mean(dim=1, keepdim=True)
     t_std_X = (tkernels - t_mean) / t_sqcov
@@ -36,23 +36,38 @@ def _compute_kde_params(tkernels, pilot_samples_num=None):
         t_std_X_pilot = t_std_X
         self_kde_correction = 0
     else:
-        pilot_ranks = ((torch.arange(pilot_samples_num) / pilot_samples_num) * tkernels.shape[-1]).int().to(tkernels.device)
+        pilot_ranks = (
+            ((torch.arange(pilot_samples_num) / pilot_samples_num) * tkernels.shape[-1])
+            .int()
+            .to(tkernels.device)
+        )
         tkernels_sort_ix = torch.argsort(tkernels, dim=-1)
         pilot_indices = tkernels_sort_ix[:, pilot_ranks]
         t_std_X_pilot = torch.take_along_dim(t_std_X, pilot_indices, dim=-1)
         self_kde_correction = 1
 
     t_kde_values = torch.sum(
-        (torch.exp(-0.5 * t_invbw**2 * (t_std_X_pilot.unsqueeze(1) - t_std_X.unsqueeze(2))**2) + self_kde_correction) * t_norm,
-        dim=2
+        (
+            torch.exp(
+                -0.5
+                * t_invbw**2
+                * (t_std_X_pilot.unsqueeze(1) - t_std_X.unsqueeze(2)) ** 2
+            )
+            + self_kde_correction
+        )
+        * t_norm,
+        dim=2,
     )
-    t_g = torch.exp(torch.sum(torch.log(t_kde_values), dim=1) / tkernels.shape[1]).unsqueeze(1)
-    t_inv_loc_bw = (t_kde_values / t_g)**(0.5)
+    t_g = torch.exp(
+        torch.sum(torch.log(t_kde_values), dim=1) / tkernels.shape[1]
+    ).unsqueeze(1)
+    t_inv_loc_bw = (t_kde_values / t_g) ** (0.5)
 
     if limit_pilot_samples:
         _glob_bw = np.power(tkernels.shape[1] * (3 / 4), -1 / 5)
-        
+
     return t_mean, t_sqcov, t_std_X, t_inv_loc_bw, _glob_bw
+
 
 def nll_gpu(pred_samples, y):
     """Calculate negative log likelihood using adaptive kernel density estimation.
@@ -82,7 +97,11 @@ def nll_gpu(pred_samples, y):
 
         # predict
         t_p_ = (tpoint - t_mean) / t_sqcov
-        t_invbw = torch.ones(1, 1, tkernels.shape[1], device=tkernels.device) * t_inv_loc_bw / _glob_bw
+        t_invbw = (
+            torch.ones(1, 1, tkernels.shape[1], device=tkernels.device)
+            * t_inv_loc_bw
+            / _glob_bw
+        )
         t_norm = (
             t_invbw / (t_sqcov.unsqueeze(0) * np.sqrt(2 * np.pi)) / tkernels.shape[1]
         )
@@ -95,7 +114,10 @@ def nll_gpu(pred_samples, y):
         )
     return -torch.log(torch.cat(likelihoods_all, dim=0))
 
-def nll_gpu_weighted(pred_samples, pred_weights, y, max_pilot_samples=None, batch_size=16):
+
+def nll_gpu_weighted(
+    pred_samples, pred_weights, y, max_pilot_samples=None, batch_size=16
+):
     """Calculate negative log likelihood using weighted adaptive kernel density estimation.
 
     Uses Silverman's rule for global bandwidth and adaptive local bandwidth scaling.
@@ -125,8 +147,10 @@ def nll_gpu_weighted(pred_samples, pred_weights, y, max_pilot_samples=None, batc
         tpoint = tpoint_all[ixs]
         tweights = tweights_all[ixs]
 
-        t_mean, t_sqcov, t_std_X, t_inv_loc_bw, _glob_bw = _compute_kde_params(tkernels, max_pilot_samples)
-        
+        t_mean, t_sqcov, t_std_X, t_inv_loc_bw, _glob_bw = _compute_kde_params(
+            tkernels, max_pilot_samples
+        )
+
         t_p_ = (tpoint - t_mean) / t_sqcov
         t_invbw = torch.ones(1, tkernels.shape[1]) * t_inv_loc_bw / _glob_bw
         t_norm_log = (
@@ -162,7 +186,7 @@ def get_kde(pred_samples, pred_weights=None, max_pilot_samples=None, batch_size=
         pred_samples = torch.tensor(pred_samples).float()
         if pred_weights is not None:
             pred_weights = torch.tensor(pred_weights).float()
-    
+
     if pred_weights is None:
         pred_weights = torch.ones_like(pred_samples) / pred_samples.shape[1]
 
@@ -171,16 +195,15 @@ def get_kde(pred_samples, pred_weights=None, max_pilot_samples=None, batch_size=
         tkernels = pred_samples[ixs]
         tweights = pred_weights[ixs]
 
-        t_mean, t_sqcov, _, t_inv_loc_bw, _glob_bw = _compute_kde_params(tkernels, max_pilot_samples)
+        t_mean, t_sqcov, _, t_inv_loc_bw, _glob_bw = _compute_kde_params(
+            tkernels, max_pilot_samples
+        )
 
         for i in range(len(tkernels)):
             mix = torch.distributions.Categorical(probs=tweights[i])
             comp = torch.distributions.Normal(
-                tkernels[i],
-                torch.ones_like(tkernels[i]) * t_inv_loc_bw[i] / _glob_bw
+                tkernels[i], torch.ones_like(tkernels[i]) * t_inv_loc_bw[i] / _glob_bw
             )
-            distributions.append(
-                torch.distributions.MixtureSameFamily(mix, comp)
-            )
+            distributions.append(torch.distributions.MixtureSameFamily(mix, comp))
 
     return distributions
