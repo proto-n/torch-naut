@@ -22,7 +22,7 @@ testpaths = ["tests"]
 addopts = "--strict-markers"
 
 [tool.ruff]
-line-length = 140
+line-length = 88
 
 [project.optional-dependencies]
 dev = [

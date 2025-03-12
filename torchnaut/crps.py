@@ -1,4 +1,73 @@
 import torch
+from torch import nn
+from typing import Optional
+
+
+class EpsilonSampler(nn.Module):
+    """Layer that adds random normal samples to enable probabilistic predictions.
+    
+    This layer transforms input tensors by concatenating random samples from a standard 
+    normal distribution. The number of samples can be controlled globally using the context
+    manager interface or per-call using the n_samples parameter.
+
+    Args:
+        sample_dim (int): Number of random dimensions to add
+
+    Example:
+        >>> sampler = EpsilonSampler(16)
+        >>> # Default number of samples (100)
+        >>> out = sampler(x)  # Shape: [batch, 100, features+16]
+        >>> 
+        >>> # Override samples for a specific call
+        >>> out = sampler(x, n_samples=1000)  # Shape: [batch, 1000, features+16]
+        >>>
+        >>> # Use context manager to temporarily change default samples
+        >>> with sampler.samples(500):
+        ...     out = sampler(x)  # Shape: [batch, 500, features+16]
+        >>> out = sampler(x)  # Back to default 100 samples
+    """
+
+    _global_n_samples: Optional[int] = None  # Static attribute for context-manager n_samples
+
+    def __init__(self, n_dim):
+        super().__init__()
+        self.n_dim = n_dim
+
+    def forward(self, x, n_samples=None):
+        """Forward pass adding random normal samples.
+        
+        Args:
+            x (torch.Tensor): Input tensor
+            n_samples (int, optional): Override number of samples for this call.
+                                     If None, uses the current default value.
+        """
+        if n_samples is None:
+            if EpsilonSampler._global_n_samples is not None:
+                n_samples = EpsilonSampler._global_n_samples
+            else:
+                n_samples = 100
+
+        eps = torch.randn(*x.shape[:-1], n_samples, self.n_dim, device=x.device)
+        return torch.concatenate(
+            [x.unsqueeze(-2).expand(*([-1] * (len(x.shape) - 1)), n_samples, -1), eps],
+            dim=-1,
+        )
+
+    class _OverrideNSamples:  # Private inner class
+        def __init__(self, n_samples):
+            self.n_samples = n_samples
+
+        def __enter__(self):
+            self.original_n_samples = EpsilonSampler._global_n_samples
+            EpsilonSampler._global_n_samples = self.n_samples
+            return self
+
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            EpsilonSampler._global_n_samples = self.original_n_samples
+
+    @classmethod
+    def n_samples(cls, n_samples):
+        return cls._OverrideNSamples(n_samples)
 
 
 def crps_loss(yps, y):

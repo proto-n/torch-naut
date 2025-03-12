@@ -1,4 +1,6 @@
 .vscode
 .pytest_cache
+torchnaut.egg-info
 **/__pycache__
 docs/build
+build
