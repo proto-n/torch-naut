@@ -2,6 +2,9 @@
 
 ## Nonparametric Aleatoric Uncertainty Modeling Toolkit for PyTorch
 
+[![Read the Docs](https://img.shields.io/readthedocs/torch-naut?style=for-the-badge&logo=readthedocs)](https://torch-naut.readthedocs.io/en/latest/)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/proto-n/torch-naut/python-package.yml?style=for-the-badge&logo=github)](https://github.com/proto-n/torch-naut/actions/workflows/python-package.yml)
+
 **TorchNaut** is a Python package designed for uncertainty modeling in neural networks. It provides:
 
 - Implementations of CPRS loss-based models and Mixture Density Networks  
@@ -11,9 +14,7 @@
 
 TorchNaut is built as a utility library, encouraging a *bring-your-own-model* approach. However, for convenience and rapid prototyping, we also provide pre-defined models.
 
----
 
-[![Documentation status](https://readthedocs.org/projects/torch-naut/badge/?version=latest&style=for-the-badge)](https://torch-naut.readthedocs.io/en/latest/)
 
 ---
 
