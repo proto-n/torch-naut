@@ -10,6 +10,9 @@
 - Multivariate extensions of models  
 
 TorchNaut is built as a utility library, encouraging a *bring-your-own-model* approach. However, for convenience and rapid prototyping, we also provide pre-defined models.
+---
+
+[![Documentation status](https://readthedocs.org/projects/torch-naut/badge/?version=latest&style=for-the-badge)](https://torch-naut.readthedocs.io/en/latest/)
 
 ---
 
