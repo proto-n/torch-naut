@@ -22,7 +22,7 @@ class EpsilonSampler(nn.Module):
         >>> out = sampler(x, n_samples=1000)  # Shape: [batch, 1000, features+16]
         >>>
         >>> # Use context manager to temporarily change default samples
-        >>> with sampler.samples(500):
+        >>> with EpsilonSampler.n_samples(500):
         ...     out = sampler(x)  # Shape: [batch, 500, features+16]
         >>> out = sampler(x)  # Back to default 100 samples
     """

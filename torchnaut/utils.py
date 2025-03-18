@@ -130,3 +130,30 @@ class LabelScaler:
             arr_scaled = torch.from_numpy(arr_scaled).to(device)
 
         return arr_scaled
+
+
+def calculate_pit_cdf(preds, y):
+    """Calculate the Probability Integral Transform (PIT) and its CDF.
+
+    Args:
+        preds (numpy.ndarray): Model predictions of shape [num_predictions, num_samples]
+        y (numpy.ndarray): Ground truth values of shape [num_predictions]
+
+    Returns:
+        tuple: Contains:
+            - numpy.ndarray: Reference percentiles (linspace from 0 to 1)
+            - numpy.ndarray: Empirical CDF of the PIT values
+    """
+    # Sort samples for each prediction
+    all_outputs_sorted = np.take_along_axis(preds, np.argsort(preds, axis=1), axis=1)
+    # Calculate percentiles for each prediction
+    percentiles = (all_outputs_sorted < y.reshape(-1, 1)).mean(
+        axis=1
+    )  # Ensure y has a compatible shape
+    # Calculate the empirical cumulative distribution function (CDF) of the probability integral transformed (PIT) values
+    ref_percentiles = np.linspace(0, 1, 101)
+    cumulative_percentiles = np.searchsorted(
+        np.sort(percentiles), ref_percentiles, side="left"
+    ) / len(percentiles)
+
+    return ref_percentiles, cumulative_percentiles
