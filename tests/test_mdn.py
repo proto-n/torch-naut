@@ -18,10 +18,10 @@ def test_mdn_shape():
 
 def test_mdnmv_shape():
     n_dims = 2
-    mdnmv = MDNMV(n_components=3, n_outputs=n_dims)
+    mdnmv = MDNMV(n_components=3, target_dim=n_dims)
     batch_size, n_components = 10, 3
     n_params = 1 + n_dims + (n_dims * (n_dims + 1) // 2)  # weights + means + tril
-    p = torch.randn(batch_size, n_components, n_params)
+    p = torch.randn(batch_size, n_components * n_params)
 
     _ = mdnmv.get_dist(p)
     samples = mdnmv.sample(p, n=5)

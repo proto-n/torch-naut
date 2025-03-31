@@ -202,7 +202,7 @@ def get_kde(pred_samples, pred_weights=None, max_pilot_samples=None, batch_size=
         for i in range(len(tkernels)):
             mix = torch.distributions.Categorical(probs=tweights[i])
             comp = torch.distributions.Normal(
-                tkernels[i], torch.ones_like(tkernels[i]) * t_inv_loc_bw[i] / _glob_bw
+                tkernels[i], t_sqcov[i] * _glob_bw / t_inv_loc_bw[i]
             )
             distributions.append(torch.distributions.MixtureSameFamily(mix, comp))
 
