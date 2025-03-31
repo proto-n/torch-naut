@@ -25,9 +25,27 @@ For the original, unmodified experiment code, please refer to the [ICLR2025 bran
 
 ---
 
-## Coming Soon
+## Installation
 
-The library code is coming soon
+Official package coming soon! Right now, you can install the package as follows:
+```bash
+git clone https://github.com/proto-n/torch-naut
+cd torch-naut
+pip install .
+```
+
+## Usage
+
+Check out the following introduction notebooks:
+
+[Introduction to CRPS-based models](https://github.com/proto-n/torch-naut/blob/main/examples/1_intro_crps.ipynb)  
+A full training and evaluation example of a model optimized for the CRPS loss
+
+
+[Introduction to Mixture Density Networks](https://github.com/proto-n/torch-naut/blob/main/examples/2_intro_mdn.ipynb)  
+Training and evaluating an MDN model
+
+More examples coming soon!
 
 ## Citation
 
