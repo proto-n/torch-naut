@@ -38,12 +38,15 @@ pip install .
 
 Check out the following introduction notebooks:
 
-[Introduction to CRPS-based models](https://github.com/proto-n/torch-naut/blob/main/examples/1_intro_crps.ipynb)  
+[1. Introduction to CRPS-based models](https://github.com/proto-n/torch-naut/blob/main/examples/1_intro_crps.ipynb)  
 A full training and evaluation example of a model optimized for the CRPS loss
 
 
-[Introduction to Mixture Density Networks](https://github.com/proto-n/torch-naut/blob/main/examples/2_intro_mdn.ipynb)  
+[2. Introduction to Mixture Density Networks](https://github.com/proto-n/torch-naut/blob/main/examples/2_intro_mdn.ipynb)  
 Training and evaluating an MDN model
+
+[2. Accounting for Epistemic Uncertainty](https://github.com/proto-n/torch-naut/blob/main/examples/3_compare_epistemic.ipynb)  
+Using Deep Ensembles with CRPS-based models and MDN as the output of a Bayesian Neural Network
 
 More examples coming soon!
 
