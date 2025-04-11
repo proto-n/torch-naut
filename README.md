@@ -48,7 +48,7 @@ Training and evaluating an MDN model
 [3. Accounting for Epistemic Uncertainty](https://github.com/proto-n/torch-naut/blob/main/examples/3_compare_epistemic.ipynb)  
 Using Deep Ensembles with CRPS-based models and MDN as the output of a Bayesian Neural Network
 
-[4. Other architectures](https://github.com/proto-n/torch-naut/blob/main/examples/4_weighted_crps.ipynb)  
+[4. Advanced architectures](https://github.com/proto-n/torch-naut/blob/main/examples/4_weighted_crps.ipynb)  
 Using weighted, multihead, multilayer (in the loss sense) networks
 
 More examples coming soon!
