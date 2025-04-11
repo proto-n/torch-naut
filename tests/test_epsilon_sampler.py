@@ -31,6 +31,10 @@ def test_nested_n_samples_context():
 
         with EpsilonSampler.n_samples(25):
             out2 = sampler(x)
+            assert out2.shape == (4, 50, 5)
+
+        with EpsilonSampler.n_samples(25, force=True):
+            out2 = sampler(x)
             assert out2.shape == (4, 25, 5)
 
         out3 = sampler(x)
@@ -38,6 +42,11 @@ def test_nested_n_samples_context():
 
     out4 = sampler(x)
     assert out4.shape == (4, 100, 5)
+
+
+def test_get_n_samples():
+    assert EpsilonSampler.get_n_samples() is None
+    assert EpsilonSampler.get_n_samples(50) == 50
 
 
 def test_n_samples_with_model():

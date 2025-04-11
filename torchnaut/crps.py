@@ -56,20 +56,37 @@ class EpsilonSampler(nn.Module):
         )
 
     class _OverrideNSamples:  # Private inner class
-        def __init__(self, n_samples):
+        def __init__(self, n_samples, force=False):
             self.n_samples = n_samples
+            self.force = force
 
         def __enter__(self):
             self.original_n_samples = EpsilonSampler._global_n_samples
-            EpsilonSampler._global_n_samples = self.n_samples
+            if self.force:
+                EpsilonSampler._global_n_samples = self.n_samples
+            else:
+                # Only the first override is used
+                if EpsilonSampler._global_n_samples is None:
+                    EpsilonSampler._global_n_samples = self.n_samples
             return self
 
         def __exit__(self, exc_type, exc_val, exc_tb):
             EpsilonSampler._global_n_samples = self.original_n_samples
 
     @classmethod
-    def n_samples(cls, n_samples):
-        return cls._OverrideNSamples(n_samples)
+    def n_samples(cls, n_samples, force=False):
+        return cls._OverrideNSamples(n_samples, force=force)
+
+    @classmethod
+    def get_n_samples(cls, default=None):
+        if default is None:
+            return EpsilonSampler._global_n_samples
+        else:
+            return (
+                default
+                if EpsilonSampler._global_n_samples is None
+                else EpsilonSampler._global_n_samples
+            )
 
 
 def crps_loss(yps, y):

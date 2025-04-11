@@ -132,11 +132,12 @@ class LabelScaler:
         return arr_scaled
 
 
-def calculate_pit_cdf(preds, y):
+def calculate_pit_cdf(preds, y, weights=None):
     """Calculate the Probability Integral Transform (PIT) and its CDF.
 
     Args:
         preds (numpy.ndarray): Model predictions of shape [num_predictions, num_samples]
+        weights (numpy.ndarray): Weights for each prediction of shape [num_predictions, num_samples]
         y (numpy.ndarray): Ground truth values of shape [num_predictions]
 
     Returns:
@@ -144,12 +145,22 @@ def calculate_pit_cdf(preds, y):
             - numpy.ndarray: Reference percentiles (linspace from 0 to 1)
             - numpy.ndarray: Empirical CDF of the PIT values
     """
+    if weights is None:
+        weights = np.ones_like(preds)
+
     # Sort samples for each prediction
-    all_outputs_sorted = np.take_along_axis(preds, np.argsort(preds, axis=1), axis=1)
+    preds_order = np.argsort(preds, axis=1)
+    all_outputs_sorted = np.take_along_axis(preds, preds_order, axis=1)
+    weights_sorted = np.take_along_axis(weights, preds_order, axis=1)
+
     # Calculate percentiles for each prediction
-    percentiles = (all_outputs_sorted < y.reshape(-1, 1)).mean(
-        axis=1
-    )  # Ensure y has a compatible shape
+    weights_to_sum = np.where(
+        all_outputs_sorted < y.reshape(-1, 1),
+        weights_sorted,
+        np.zeros_like(weights_sorted),
+    )
+    percentiles = weights_to_sum.sum(axis=1) / weights.sum(axis=1)
+
     # Calculate the empirical cumulative distribution function (CDF) of the probability integral transformed (PIT) values
     ref_percentiles = np.linspace(0, 1, 101)
     cumulative_percentiles = np.searchsorted(
