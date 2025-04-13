@@ -12,6 +12,14 @@ torchnaut.crps module
    :undoc-members:
    :show-inheritance:
 
+torchnaut.epistemic module
+--------------------------
+
+.. automodule:: torchnaut.epistemic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 torchnaut.kde module
 --------------------
 
