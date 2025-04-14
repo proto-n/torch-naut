@@ -53,6 +53,8 @@ Using weighted, multihead, multilayer (in the loss sense) networks
 
 More examples coming soon!
 
+Also make sure to check out the [documentation](https://torch-naut.readthedocs.io/en/latest/) for an API reference.
+
 ## Citation
 
 If you use TorchNaut in your research, please cite our paper:  
