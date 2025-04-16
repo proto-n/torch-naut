@@ -4,6 +4,8 @@
 
 [![Read the Docs](https://img.shields.io/readthedocs/torch-naut?style=for-the-badge&logo=readthedocs)](https://torch-naut.readthedocs.io/en/latest/)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/proto-n/torch-naut/python-package.yml?style=for-the-badge&logo=github)](https://github.com/proto-n/torch-naut/actions/workflows/python-package.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/proto-n/torch-naut/python-publish.yml?style=for-the-badge&label=package)
+![PyPI - Version](https://img.shields.io/pypi/v/torchnaut?style=for-the-badge)
 
 **TorchNaut** is a Python package designed for uncertainty modeling in neural networks. It provides:
 
