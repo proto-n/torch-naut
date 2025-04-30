@@ -29,7 +29,7 @@ For the original, unmodified experiment code, please refer to the [ICLR2025 bran
 
 ## Installation
 
-Official package coming soon! Right now, you can install the package as follows:
+You can install from PyPI using
 ```bash
 pip install torchnaut
 ```
