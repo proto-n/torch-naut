@@ -85,7 +85,7 @@ Also make sure to check out the [documentation](https://torch-naut.readthedocs.i
 
 ## Citation
 
-If you use TorchNaut in your research, please cite our paper:  
+If you use our code in your research, please cite our paper:  
 ```
 @inproceedings{
 kelen2025distributionfree,
