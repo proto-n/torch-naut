@@ -36,11 +36,39 @@ pip install torchnaut
 
 ## Usage
 
-Check out the following introduction notebooks:
+For a *very* short intro:
+
+Import the relevant part of the package:
+```python
+from torchnaut import crps
+```
+
+Extend your model with a layer that provides nondeterminism and extends variables by the sampling dimension:
+```python
+self.layers = nn.Sequential(
+    nn.Linear(input_dim, 64),
+    nn.ReLU(),
+    # EpsilonSampler transforms [batch_size, 64] to [batch_size, n_samples, 64 + 16] and fills the last 16 columns with samples from the standard normal distribution.
+    crps.EpsilonSampler(16), 
+    nn.Linear(64 + 16, 32),
+    nn.ReLU(),
+    nn.Linear(32, 1),
+)
+```
+
+Finally, use the CRPS-loss on the model output:
+```python
+outputs = model(batch_X)
+# CRPS loss returns a tensor of shape [batch_size, n_samples] which needs to be reduced to a scalar.
+loss = crps.crps_loss(outputs, batch_y).mean()
+```
+
+However, optimal performance requires variable standardization, early stopping, etc.
+
+For full examples, check out the following introduction notebooks:
 
 [1. Introduction to CRPS-based models](https://github.com/proto-n/torch-naut/blob/main/examples/1_intro_crps.ipynb)  
 A full training and evaluation example of a model optimized for the CRPS loss
-
 
 [2. Introduction to Mixture Density Networks](https://github.com/proto-n/torch-naut/blob/main/examples/2_intro_mdn.ipynb)  
 Training and evaluating an MDN model
@@ -51,7 +79,7 @@ Using Deep Ensembles with CRPS-based models and MDN as the output of a Bayesian 
 [4. Advanced architectures](https://github.com/proto-n/torch-naut/blob/main/examples/4_weighted_crps.ipynb)  
 Using weighted, multihead, multilayer (in the loss sense) networks
 
-More examples coming soon!
+More examples (e.g., multivariate models) coming soon!
 
 Also make sure to check out the [documentation](https://torch-naut.readthedocs.io/en/latest/) for an API reference.
 
