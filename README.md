@@ -31,9 +31,7 @@ For the original, unmodified experiment code, please refer to the [ICLR2025 bran
 
 Official package coming soon! Right now, you can install the package as follows:
 ```bash
-git clone https://github.com/proto-n/torch-naut
-cd torch-naut
-pip install .
+pip install torchnaut
 ```
 
 ## Usage
