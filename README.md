@@ -22,7 +22,7 @@ TorchNaut is built as a utility library, encouraging a *bring-your-own-model* ap
 
 ## ICLR 2025 Experiment Code
 
-This repository was originally developed for the paper **Distribution-free Data Uncertainty for Neural Network Regression** (ICLR 2025).  
+This repository was originally developed for the paper [**Distribution-free Data Uncertainty for Neural Network Regression**](https://openreview.net/forum?id=pDDODPtpx9) (ICLR 2025).  
 For the original, unmodified experiment code, please refer to the [ICLR2025 branch](https://github.com/proto-n/torch-naut/tree/iclr2025).
 
 ---
